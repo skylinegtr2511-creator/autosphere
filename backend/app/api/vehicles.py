@@ -30,3 +30,13 @@ def create_vehicle(vehicle_in: VehicleCreate, db: Session = Depends(get_db)):
 def read_vehicles(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     vehicles = db.query(Vehicle).offset(skip).limit(limit).all()
     return vehicles
+
+# 3. Endpoint to DELETE a vehicle
+@router.delete("/{vehicle_id}")
+def delete_vehicle(vehicle_id: int, db: Session = Depends(get_db)):
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
+    if not vehicle:
+        raise HTTPException(status_code=404, detail="Vehicle not found")
+    db.delete(vehicle)
+    db.commit()
+    return {"message": "Vehicle deleted successfully"}
