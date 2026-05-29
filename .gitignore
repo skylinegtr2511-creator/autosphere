@@ -1,0 +1,17 @@
+# Environments
+venv/
+env/
+ml_engine/venv/
+backend/venv/
+
+# PyCharm specific
+.idea/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Secrets and Databases
+.env
+*.db
+autosphere.db
