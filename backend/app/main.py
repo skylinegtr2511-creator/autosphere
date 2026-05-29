@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from app.core.database import engine, Base
-# We must import the models here so SQLAlchemy knows they exist before creating tables
 from app.models import vehicle
+from app.api import vehicles  # Import the new router
 
-# This single line creates your database file (autosphere.db)
-# and builds all the tables defined in your models.
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -13,7 +12,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# A simple health-check route to ensure the server is running
+# Include the vehicles router in our app
+app.include_router(vehicles.router)
+
 @app.get("/")
 def read_root():
     return {"status": "success", "message": "The AutoSphere Engine is firing on all cylinders!"}
